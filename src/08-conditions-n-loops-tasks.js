@@ -172,8 +172,16 @@ function isInsideCircle(circle, point) {
  *   'abracadabra'  => 'c'
  *   'entente' => null
  */
-function findFirstSingleChar(/* str */) {
-  throw new Error('Not implemented');
+function findFirstSingleChar(str) {
+  let result = null;
+  const arr = str.split('');
+  arr.forEach((el) => {
+    const word = arr.filter((item) => item === el);
+    if (!result && word.length === 1) {
+      [result] = word;
+    }
+  });
+  return result;
 }
 
 
@@ -279,8 +287,12 @@ function isCreditCardNumber(/* ccn */) {
  *   10000 ( 1+0+0+0+0 = 1 ) => 1
  *   165536 (1+6+5+5+3+6 = 26,  2+6 = 8) => 8
  */
-function getDigitalRoot(/* num */) {
-  throw new Error('Not implemented');
+function getDigitalRoot(num) {
+  const sum = String(num).split('').reduce((acc, el) => +acc + +el);
+  if (String(sum).length > 1) {
+    return getDigitalRoot(sum);
+  }
+  return sum;
 }
 
 
@@ -305,8 +317,27 @@ function getDigitalRoot(/* num */) {
  *   '{)' = false
  *   '{[(<{[]}>)]}' = true
  */
-function isBracketsBalanced(/* str */) {
-  throw new Error('Not implemented');
+function isBracketsBalanced(str) {
+  const brackets = {
+    '[': ']',
+    '(': ')',
+    '{': '}',
+    '<': '>',
+  };
+
+  const arr = str.split('');
+  const result = [];
+  for (let i = 0; i < arr.length; i += 1) {
+    if (Object.keys(brackets).includes(arr[i])) {
+      result.push(arr[i]);
+    } else {
+      const prev = result.pop();
+      if (arr[i] !== brackets[prev]) {
+        return false;
+      }
+    }
+  }
+  return !result.length;
 }
 
 
@@ -330,8 +361,8 @@ function isBracketsBalanced(/* str */) {
  *    365, 4  => '11231'
  *    365, 10 => '365'
  */
-function toNaryString(/* num, n */) {
-  throw new Error('Not implemented');
+function toNaryString(num, n) {
+  return num.toString(n);
 }
 
 
@@ -347,8 +378,11 @@ function toNaryString(/* num, n */) {
  *   ['/web/assets/style.css', '/.bin/mocha',  '/read.me'] => '/'
  *   ['/web/favicon.ico', '/web-scripts/dump', '/webalizer/logs'] => '/'
  */
-function getCommonDirectoryPath(/* pathes */) {
-  throw new Error('Not implemented');
+function getCommonDirectoryPath(pathes) {
+  const arr = pathes.map((i) => i.split('/'));
+  const arrNew = arr[0].map((e, i) => arr.map((item) => item[i]));
+  const result = arrNew.filter((array) => array.every((e) => e === array[0]));
+  return [...result, ['']].map((item) => item[0]).join('/');
 }
 
 
